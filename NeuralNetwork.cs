@@ -31,7 +31,7 @@ namespace ANDGateNeuralNetwork
             //InitialiseBiases();
             biases = new float[][] { new float[] { 0, 0, 0 }, new float[] { 0 } };
 
-            /*foreach (float[][] weightLayer in weights)
+            foreach (float[][] weightLayer in weights)
             {
                 foreach (float[] weightNeuron in weightLayer)
                 {
@@ -50,7 +50,7 @@ namespace ANDGateNeuralNetwork
                 {
                     Console.Write(bias + ", ");
                 }
-            }*/
+            }
         }
 
         [MemberNotNull(nameof(neurons))]
@@ -150,24 +150,13 @@ namespace ANDGateNeuralNetwork
         public float HiddenLayerActivationFunction(float input)
         {
             //return (float)Math.Max(0, input);
-            return (float)(1 / (1 + Math.Pow(Math.E, -input)));
+            return Sigmoid(input);
         }
 
         public float OutputLayerActivationFunction(float input)
         {
             //return input;
-            return (float)(1 / (1 + Math.Pow(Math.E, -input)));
-        }
-
-        public float LossFunction(float[] outputs, int target)
-        {
-            return (float)-Math.Log(outputs[target]);
-        }
-
-        public float LossFunction(float[] outputs, int[] targets)
-        {
-            int target = Array.IndexOf(targets, 1);
-            return LossFunction(outputs, target);
+            return Sigmoid(input);
         }
 
         public float CalculateError(float[] outputs, float[] targets)
@@ -180,6 +169,33 @@ namespace ANDGateNeuralNetwork
             }
 
             return error;
+        }
+
+        public float ReluDerivative(float x)
+        {
+            return x >= 0 ? 1 : 0;
+        }
+
+        public float SigmoidDerivative(float x)
+        {
+            return Sigmoid(x) * (1 - Sigmoid(x));
+        }
+
+        public float Sigmoid(float x)
+        {
+            return (float)(1 / (1 + Math.Pow(Math.E, -x)));
+        }
+
+        public float CostFunction(float[] outputs, float[] targets)
+        {
+            float cost = 0;
+
+            for (int i = 0; i < outputs.Length; i++)
+            {
+                cost += (float)Math.Pow(outputs[i] - targets[i], 2);
+            }
+
+            return cost;
         }
     }
 }

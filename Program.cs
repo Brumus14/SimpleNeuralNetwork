@@ -1,4 +1,5 @@
 ﻿using SimpleNeuralNetwork;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Http.Headers;
 using System.Numerics;
@@ -88,7 +89,25 @@ namespace ANDGateNeuralNetwork
                     Console.WriteLine(item);
                 }
             }*/
-            Testing.Minimize(2, 0.6d, 100);
+
+            //Testing.Minimize(-0.999, 0.0001d, 99999);
+            //Console.WriteLine(Testing.Derivative(x => Math.Pow(x, 2) + (3 * x) - 2, -1));
+
+            //average cost for many feed forwards
+
+
+            NeuralNetwork network = new NeuralNetwork(new int[] { 10, 4, 2 });
+
+            float[] outputs = new float[10] { 0.02f, 0.03f, 0.06f, 0.97f, 0.07f, 0.02f, 0.05f, 0.06f, 0.08f, 0.04f };
+            float[] expected = new float[10] { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 };
+
+            Console.WriteLine(network.CostFunction(outputs, expected));
+            double[] gradients = new double[outputs.Length];
+
+            for (int i = 0; i < outputs.Length; i++)
+            {
+
+            }
         }
     }
 }
